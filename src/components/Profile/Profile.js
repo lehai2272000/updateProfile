@@ -1,10 +1,8 @@
 import React, { PureComponent } from "react";
-// import { Table } from "antd";
 import axios from "axios";
-// import styled from "styled-components";
 import { getDeviceCode, getToken } from "../../helper/local-storage";
 import Header from "../Header/Header";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./profile.scss";
 
 // const GlobalStyle = styled(Table)`
@@ -104,12 +102,9 @@ export class Profile extends PureComponent {
 
   render() {
     const { tableData } = this.state;
-    console.log("table", tableData);
-
     return (
       <div>
         <Header />
-        {/* <GlobalStyle columns={columns} dataSource={this.state.tableData} /> */}
         <div class="table">
           <tr>
             <th>Name</th>
@@ -121,13 +116,15 @@ export class Profile extends PureComponent {
             <th>Avatar</th>
           </tr>
           <tr class="table-data">
-            <td>{tableData.name}</td>
-            <td>{tableData.phone_number}</td>
-            <td>{tableData.gender}</td>
-            <td>{tableData.email}</td>
-            <td>{tableData.account_type}</td>
-            <td>{tableData.address}</td>
-            <td>{tableData.avatar}</td>
+            <td>{tableData ? tableData.name : ""}</td>
+            <td>{tableData ? tableData.phone_number : ""}</td>
+            <td>{tableData ? tableData.gender : ""}</td>
+            <td>{tableData ? tableData.email : ""}</td>
+            <td>{tableData ? tableData.account_type : ""}</td>
+            <td>{tableData ? tableData.address : ""}</td>
+            <td>{tableData ? tableData.avatar : ""}</td>
+
+            <Link to={`/update/${tableData.id}`}>Update</Link>
           </tr>
         </div>
       </div>

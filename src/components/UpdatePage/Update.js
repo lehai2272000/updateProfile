@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
 import "antd/dist/antd.css";
-import { Form, Input, Button, Upload } from "antd";
+// import { Form, Input, Button, Upload } from "antd";
 import { getDeviceCode, getToken } from "../../helper/local-storage";
-import { UploadOutlined } from "@ant-design/icons";
+// import { UploadOutlined } from "@ant-design/icons";
 class Update extends Component {
   constructor(props) {
     super(props);
@@ -26,13 +26,14 @@ class Update extends Component {
     const deviceCode = getDeviceCode();
     const token = "Bearer " + getToken();
     if (match) {
-      let id = match.params.id;
+      // let id = match.params.id;
       axios({
         method: "GET",
-        url: `https://acpstaging.vipn.net/api/auth/profile/${id}`,
+        url: `https://acpstaging.vipn.net/api/auth/profile`,
         headers: { "DEVICE-CODE": deviceCode, Authorization: token },
       }).then((res) => {
-        let data = res.data;
+        let data = res.data.data;
+        console.log(data);
         this.setState({
           id: data.id,
           name: data.name,
@@ -61,9 +62,10 @@ class Update extends Component {
     // const { history } = this.props;
     e.preventDefault();
     if (id) {
+      console.log("hare!!")
       axios({
         method: "PUT",
-        url: `https://acpstaging.vipn.net/api/auth/user/047fbad6-4d25-4008-84d3-53d6a94f8a66/${id}/`,
+        url: `https://acpstaging.vipn.net/api/auth/user/047fbad6-4d25-4008-84d3-53d6a94f8a66/${id}`,
         headers: { "DEVICE-CODE": deviceCode, Authorization: token },
         data: {
           name: name,
@@ -92,43 +94,65 @@ class Update extends Component {
   };
   render() {
     const { name, phone, gender, address, avatar } = this.state;
-    const props = {
-      action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
-      onChange: this.handleChange,
-      multiple: true,
-    };
+    console.log(name);
+    // const props = {
+    //   action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
+    //   onChange: this.handleChange,
+    //   multiple: true,
+    // };
     return (
       <div>
-        <Form onFinish={this.onSave}>
-          <Form.Item label="Name" value={name} onChange={this.onChange}>
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Phone"
-            value={phone}
-            rules={[
-              {
-                required: true,
-                message: "Please input your phone number!",
-              },
-            ]}
-            onChange={this.onChange}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item label="Gender" value={gender} onChange={this.onChange}>
-            <Input />
-          </Form.Item>
-          <Form.Item label="Address" value={address} onChange={this.onChange}>
-            <Input />
-          </Form.Item>
-          <Form.Item label="Avatar" value={avatar} onChange={this.onChange}>
-            <Upload {...props} fileList={this.state.fileList}>
-              <Button icon={<UploadOutlined />}>Upload</Button>
-            </Upload>
-          </Form.Item>
-          <Button htmlType="submit">Update</Button>
-        </Form>
+        <form onSubmit={this.onSave}>
+          <div className="form-group">
+            <label>Name</label>
+            <input
+              type="text"
+              className="form-control"
+              name="name"
+              value={name}
+              onChange={this.onChange}
+            />
+          </div>
+          <div className="form-group">
+            <label>Phone</label>
+            <input
+              type="number"
+              className="form-control"
+              name="phone"
+              value={phone}
+              onChange={this.onChange}
+            />
+          </div>
+          <div className="form-group">
+            <label>Gender</label>
+            <input
+              type="number"
+              className="form-control"
+              name="gender"
+              value={gender}
+              onChange={this.onChange}
+            />
+          </div>
+          <div className="form-group">
+            <label>Address</label>
+            <input
+              type="text"
+              className="form-control"
+              name="address"
+              value={address}
+              onChange={this.onChange}
+            />
+          </div>
+          {/* <div className="form-group">
+            <label for="myfile">Select a file:</label>
+            <input type="file" name="avatar" value={avatar} />
+          </div> */}
+
+
+          <button type="submit" className="btn btn-primary">
+            Submit
+          </button>
+        </form>
       </div>
     );
   }

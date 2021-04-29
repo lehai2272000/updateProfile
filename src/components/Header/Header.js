@@ -72,14 +72,14 @@ const HeaderStyle = styled(PageHeader)`
 `;
 
 class Header extends Component {
-  render(match) {
+  render() {
     return (
       <div>
         <HeaderStyle
           tags={
             <Menu>
               <SubMenu title={<Avatar size="larger" icon={<UserOutlined />} />}>
-                <Menu.Item> <Link to="/profile/update" match={match}>Update</Link></Menu.Item>
+                {/* <Menu.Item> <Link to={`/update/${tableData.id}`}>Update</Link></Menu.Item> */}
                 <Menu.Item><Logout/></Menu.Item>
               </SubMenu>
             </Menu>

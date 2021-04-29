@@ -75,7 +75,7 @@ class Main extends Component {
         <Route path="/" exact component={Home} />
         <Route path="/header" exact component={Header} />
         <Route path="/profile" exact component={Profile} />
-        <Route path="/profile/update" exact component={Update} />
+        <Route path="/update/:id" exact component={Update}/>
       </Switch>
     );
   }
