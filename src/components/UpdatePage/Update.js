@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import "antd/dist/antd.css";
-// import { Form, Input, Button, Upload } from "antd";
 import { getDeviceCode, getToken } from "../../helper/local-storage";
-// import { UploadOutlined } from "@ant-design/icons";
 class Update extends Component {
   constructor(props) {
     super(props);
@@ -12,7 +9,7 @@ class Update extends Component {
       name: "",
       phone: "",
       gender: "",
-      address: "",
+      email: "",
       avatar: "",
     };
   }
@@ -22,7 +19,6 @@ class Update extends Component {
 
   onUpdate = () => {
     let { match } = this.props;
-    console.log("match: ", match);
     const deviceCode = getDeviceCode();
     const token = "Bearer " + getToken();
     if (match) {
@@ -33,13 +29,12 @@ class Update extends Component {
         headers: { "DEVICE-CODE": deviceCode, Authorization: token },
       }).then((res) => {
         let data = res.data.data;
-        console.log(data);
         this.setState({
           id: data.id,
           name: data.name,
           phone: data.phone,
           gender: data.gender,
-          address: data.address,
+          email: data.email,
           avatar: data.avatar,
         });
       });
@@ -56,45 +51,43 @@ class Update extends Component {
   };
 
   onSave = (e) => {
-    const { id, name, phone, gender, address, avatar } = this.state;
+    const { id, name, phone, gender, email, avatar } = this.state;
     const deviceCode = getDeviceCode();
     const token = "Bearer" + getToken();
-    // const { history } = this.props;
+    
     e.preventDefault();
     if (id) {
-      console.log("hare!!")
       axios({
         method: "PUT",
-        url: `https://acpstaging.vipn.net/api/auth/user/047fbad6-4d25-4008-84d3-53d6a94f8a66/${id}`,
+        url: `https://acpstaging.vipn.net/api/auth/user/${id}`,
         headers: { "DEVICE-CODE": deviceCode, Authorization: token },
         data: {
           name: name,
-          email: phone,
+          phone: phone,
           gender: gender,
-          address: address,
+          email: email,
           avatar: avatar,
         },
       }).catch((err) => {
         console.log(err);
       });
-    } else {
+    }else{
       axios({
         method: "POST",
-        url: `https://acpstaging.vipn.net/api/auth/profile`,
+        url: `https://acpstaging.vipn.net/api/auth/user/${id}`,
         headers: { "DEVICE-CODE": deviceCode, Authorization: token },
         data: {
           name: name,
-          email: phone,
+          phone: phone,
           gender: gender,
-          address: address,
+          email: email,
           avatar: avatar,
         },
-      });
+      })
     }
   };
   render() {
-    const { name, phone, gender, address, avatar } = this.state;
-    console.log(name);
+    const { name, phone, gender, email, avatar } = this.state;
     // const props = {
     //   action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
     //   onChange: this.handleChange,
@@ -134,12 +127,22 @@ class Update extends Component {
             />
           </div>
           <div className="form-group">
-            <label>Address</label>
+            <label>Email</label>
             <input
               type="text"
               className="form-control"
-              name="address"
-              value={address}
+              name="email"
+              value={email}
+              onChange={this.onChange}
+            />
+          </div>
+          <div className="form-group">
+            <label>Avatar</label>
+            <input
+              type="text"
+              className="form-control"
+              name="avatar"
+              value={avatar}
               onChange={this.onChange}
             />
           </div>
@@ -147,7 +150,6 @@ class Update extends Component {
             <label for="myfile">Select a file:</label>
             <input type="file" name="avatar" value={avatar} />
           </div> */}
-
 
           <button type="submit" className="btn btn-primary">
             Submit

@@ -76,3 +76,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 # demo_profile
 # example_profile
 # update_profile
+# profile

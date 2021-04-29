@@ -105,27 +105,33 @@ export class Profile extends PureComponent {
     return (
       <div>
         <Header />
-        <div class="table">
-          <tr>
-            <th>Name</th>
-            <th>Phone</th>
-            <th>Gender</th>
-            <th>Email</th>
-            <th>Account Type</th>
-            <th>Address</th>
-            <th>Avatar</th>
-          </tr>
-          <tr class="table-data">
-            <td>{tableData ? tableData.name : ""}</td>
-            <td>{tableData ? tableData.phone_number : ""}</td>
-            <td>{tableData ? tableData.gender : ""}</td>
-            <td>{tableData ? tableData.email : ""}</td>
-            <td>{tableData ? tableData.account_type : ""}</td>
-            <td>{tableData ? tableData.address : ""}</td>
-            <td>{tableData ? tableData.avatar : ""}</td>
+        <div className="table">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Gender</th>
+                <th>Email</th>
+                <th>Account Type</th>
+                <th>Address</th>
+                <th>Avatar</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="table-data">
+                <td>{tableData ? tableData.name : ""}</td>
+                <td>{tableData ? tableData.phone_number : ""}</td>
+                <td>{tableData ? tableData.gender : ""}</td>
+                <td>{tableData ? tableData.email : ""}</td>
+                <td>{tableData ? tableData.account_type : ""}</td>
+                <td>{tableData ? tableData.address : ""}</td>
+                <td>{tableData ? tableData.avatar : ""}</td>
 
-            <Link to={`/update/${tableData.id}`}>Update</Link>
-          </tr>
+                <Link to={`/update/${tableData.id}`}>Update</Link>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     );

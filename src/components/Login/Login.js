@@ -54,6 +54,7 @@ class Login extends Component {
         <form className="form-group" onSubmit={this.onLogin}>
           <input
             type="text"
+            // value="test@ibenefit.vn"
             value="lengochai990099@gmail.com"
             placeholder="Nhập tài khoản"
             name="email"
