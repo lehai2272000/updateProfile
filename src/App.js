@@ -17,6 +17,8 @@ import Login from "./components/Login/Login";
 import Header from "./components/Header/Header";
 import Profile from "./components/Profile/Profile";
 import Update from "./components/UpdatePage/Update";
+import ShowAvata from "./components/ShowAvata/ShowAvata";
+import UpdateImage from "./components/UpdateImages/UpdateImage";
 class Main extends Component {
   constructor(props) {
     super(props);
@@ -76,6 +78,9 @@ class Main extends Component {
         <Route path="/header" exact component={Header} />
         <Route path="/profile" exact component={Profile} />
         <Route path="/update/:id" exact component={Update}/>
+        <Route path="/avatar" exact component={ShowAvata}/>
+        <Route path="/updateImage" exact component={UpdateImage}/>
+
       </Switch>
     );
   }

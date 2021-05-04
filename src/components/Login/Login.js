@@ -38,7 +38,6 @@ class Login extends Component {
           setName(res.data.data.user.email);
           setToken(res.data.data.token);
           setLoggedInTime(res.data.data.user.last_login.date);
-          console.log('push');
           this.props.history.push('/');
         }
       })
@@ -54,8 +53,8 @@ class Login extends Component {
         <form className="form-group" onSubmit={this.onLogin}>
           <input
             type="text"
-            // value="test@ibenefit.vn"
-            value="lengochai990099@gmail.com"
+            value="test@ibenefit.vn"
+            // value="lengochai990099@gmail.com"
             placeholder="Nhập tài khoản"
             name="email"
           />

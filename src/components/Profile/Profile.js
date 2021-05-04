@@ -127,11 +127,12 @@ export class Profile extends PureComponent {
                 <td>{tableData ? tableData.account_type : ""}</td>
                 <td>{tableData ? tableData.address : ""}</td>
                 <td>{tableData ? tableData.avatar : ""}</td>
-
-                <Link to={`/update/${tableData.id}`}>Update</Link>
               </tr>
             </tbody>
           </table>
+        </div>
+        <div className="update-table">
+          <Link to={`/update/${tableData.id}`}>Update</Link>
         </div>
       </div>
     );

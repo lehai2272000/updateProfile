@@ -5,40 +5,59 @@ class Update extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: "",
       name: "",
-      phone: "",
+      phone_number: "",
       gender: "",
-      email: "",
-      avatar: "",
+      avatar: null,
     };
   }
+
   componentDidMount() {
     this.onUpdate();
   }
 
+  //Update API
   onUpdate = () => {
-    let { match } = this.props;
     const deviceCode = getDeviceCode();
     const token = "Bearer " + getToken();
-    if (match) {
-      // let id = match.params.id;
-      axios({
-        method: "GET",
-        url: `https://acpstaging.vipn.net/api/auth/profile`,
-        headers: { "DEVICE-CODE": deviceCode, Authorization: token },
-      }).then((res) => {
-        let data = res.data.data;
-        this.setState({
-          id: data.id,
-          name: data.name,
-          phone: data.phone,
-          gender: data.gender,
-          email: data.email,
-          avatar: data.avatar,
-        });
+    axios({
+      method: "GET",
+      url: "https://acpstaging.vipn.net/api/auth/profile",
+      headers: { "DEVICE-CODE": deviceCode, Authorization: token },
+    }).then((res) => {
+      let data = res.data.data;
+      this.setState({
+        id: data.id,
+        name: data.name,
+        phone: data.phone_number,
+        gender: data.gender,
+        avatar: data.avatar,
       });
-    }
+    });
+  };
+
+  //Upload file images
+  uploadFile = (pathFile) => {
+    const formData = new FormData();
+    formData.append("app_id", 2);
+    formData.append("file", pathFile);
+    axios({
+      method: "POST",
+      url: "https://filer.vipn.net/file/",
+      data: formData,
+    })
+      .then((res) => {
+        const result = res.data;
+        console.log("image", result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  onSelecFile = (e) => {
+    let img = e.target.files[0];
+    this.uploadFile(img);
   };
 
   onChange = (e) => {
@@ -51,48 +70,33 @@ class Update extends Component {
   };
 
   onSave = (e) => {
-    const { id, name, phone, gender, email, avatar } = this.state;
+    const { id, name, phone, gender, avatar } = this.state;
     const deviceCode = getDeviceCode();
-    const token = "Bearer" + getToken();
-    
+    const token = "Bearer " + getToken();
+
     e.preventDefault();
     if (id) {
       axios({
         method: "PUT",
-        url: `https://acpstaging.vipn.net/api/auth/user/${id}`,
+        url: `https://acpstaging.vipn.net/api/auth/profile/update`,
         headers: { "DEVICE-CODE": deviceCode, Authorization: token },
         data: {
           name: name,
           phone: phone,
           gender: gender,
-          email: email,
-          avatar: avatar,
-        },
-      }).catch((err) => {
-        console.log(err);
-      });
-    }else{
-      axios({
-        method: "POST",
-        url: `https://acpstaging.vipn.net/api/auth/user/${id}`,
-        headers: { "DEVICE-CODE": deviceCode, Authorization: token },
-        data: {
-          name: name,
-          phone: phone,
-          gender: gender,
-          email: email,
           avatar: avatar,
         },
       })
+        .then((res) => {
+          this.props.history.push("/profile");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
   render() {
-    const { name, phone, gender, email, avatar } = this.state;
-    // const props = {
-    //   action: "https://www.mocky.io/v2/5cc8019d300000980a055e76",
-    //   onChange: this.handleChange,
-    //   multiple: true,
-    // };
+    const { name, phone, gender, avatar } = this.state;
     return (
       <div>
         <form onSubmit={this.onSave}>
@@ -127,16 +131,6 @@ class Update extends Component {
             />
           </div>
           <div className="form-group">
-            <label>Email</label>
-            <input
-              type="text"
-              className="form-control"
-              name="email"
-              value={email}
-              onChange={this.onChange}
-            />
-          </div>
-          <div className="form-group">
             <label>Avatar</label>
             <input
               type="text"
@@ -146,11 +140,10 @@ class Update extends Component {
               onChange={this.onChange}
             />
           </div>
-          {/* <div className="form-group">
-            <label for="myfile">Select a file:</label>
-            <input type="file" name="avatar" value={avatar} />
-          </div> */}
-
+          <div className="form-group">
+            <label>Avatar</label>
+            <input type="file" name="avatar" onChange={this.onSelecFile} />
+          </div>
           <button type="submit" className="btn btn-primary">
             Submit
           </button>

@@ -1,34 +1,79 @@
-import React, { Component } from "react";
+import { LoadingOutlined, UploadOutlined } from "@ant-design/icons";
+import { Button, message, Upload } from "antd";
+import React, { useEffect, useState } from "react";
+import Axios from "axios";
 
-class ShowAvata extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      avatar: "",
-      name: "",
-    };
-  }
+function VideoUploader({ defaultSrc, onChange, accept }) {
+  const [fileList, setFileList] = useState([]);
+  const [isUploading, setIsUploading] = useState(false);
 
-  render() {
-    return (
-      <div>
-        {/* <ul className="navbar-nav ml-auto">
-          <li className="nav-item active">
-            <a className="nav-link" href="#">
-              <div className="avatar">
-                <img src={this.props.avatar} />
-              </div>
-            </a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link text-uppercase text-dark" href="#">
-              {this.props.username}
-            </a>
-          </li>
-        </ul> */}
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (defaultSrc) {
+      setFileList([
+        {
+          uid: "1",
+          name: defaultSrc,
+          url: defaultSrc,
+          status: "done",
+        },
+      ]);
+      return;
+    }
+    setFileList([]);
+  }, [defaultSrc]);
+
+  const _uploadFile = async (blob) => {
+    const form = new FormData();
+    form.append("app_id", 2);
+    form.append("file", blob);
+    try {
+      const result = await Axios({
+        method: "POST",
+        url: `https://filer.vipn.net/file/`,
+        data: form,
+      });
+
+      if (!result.data.success) {
+        throw result;
+      }
+      return result;
+    } catch (error) {
+      message.error("Upload Error!");
+      console.log("Lỗi");
+    }
+  };
+
+  const handleFileChange = (e) => {
+    if (e.file && e.file.status !== "removed") {
+      setFileList([e.file]);
+      setIsUploading(true);
+      _uploadFile(e.file).then(() => {
+        setIsUploading(false);
+      });
+      return;
+    }
+    setFileList([]);
+    onChange();
+  };
+
+  return (
+    <Upload
+      accept={accept}
+      fileList={fileList}
+      onChange={handleFileChange}
+      disabled={isUploading}
+      showUploadList={{
+        showDownloadIcon: true,
+      }}
+      beforeUpload={() => false}
+    >
+      <Button
+        disabled={isUploading}
+        icon={isUploading ? <LoadingOutlined /> : <UploadOutlined />}
+      >
+        Upload
+      </Button>
+    </Upload>
+  );
 }
-
-export default ShowAvata;
+export default VideoUploader;

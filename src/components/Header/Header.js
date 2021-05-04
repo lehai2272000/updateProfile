@@ -8,14 +8,6 @@ import Logout from "../Logout/Logout";
 
 const { SubMenu } = Menu;
 
-// const styleMenu = styled(Menu)`
-//   .ant-menu-submenu {
-//     display: flex;
-//     align-items: center;
-//     overflow: hidden;
-//   }
-// `;
-
 const HeaderStyle = styled(PageHeader)`
   .ant-page-header {
     background: #000;
@@ -65,7 +57,7 @@ const HeaderStyle = styled(PageHeader)`
   .ant-page-header-heading-title {
     color: #fff;
   }
-  .ant-menu-submenu{
+  .ant-menu-submenu {
     display: flex;
     flex-direction: column;
   }
@@ -79,8 +71,9 @@ class Header extends Component {
           tags={
             <Menu>
               <SubMenu title={<Avatar size="larger" icon={<UserOutlined />} />}>
-                {/* <Menu.Item> <Link to={`/update/${tableData.id}`}>Update</Link></Menu.Item> */}
-                <Menu.Item><Logout/></Menu.Item>
+                <Menu.Item key="1"> 
+                  <Logout />
+                </Menu.Item>
               </SubMenu>
             </Menu>
           }
