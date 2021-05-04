@@ -33,6 +33,7 @@ class Update extends Component {
         gender: data.gender,
         avatar: data.avatar,
       });
+      // this.uploadFile(data.avatar)
     });
   };
 
