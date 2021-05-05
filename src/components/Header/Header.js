@@ -63,7 +63,13 @@ const HeaderStyle = styled(PageHeader)`
   }
 `;
 
+
+
 class Header extends Component {
+
+  handlelink=(e)=>{
+    console.log(e);
+  }
   render() {
     return (
       <div>
@@ -77,6 +83,7 @@ class Header extends Component {
               </SubMenu>
             </Menu>
           }
+          
           extra={[
             <Tag color="green">DP</Tag>,
             <Tag color="vang">ML</Tag>,
@@ -85,7 +92,7 @@ class Header extends Component {
               <Link to="/">HOME</Link>
             </Button>,
             <Button type="primary">
-              <Link to="/profile">PROFILE</Link>
+              <Link to="/profile" >PROFILE</Link>
             </Button>,
           ]}
         ></HeaderStyle>

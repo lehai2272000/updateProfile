@@ -33,7 +33,7 @@ class Update extends Component {
         gender: data.gender,
         avatar: data.avatar,
       });
-      // this.uploadFile(data.avatar)
+      this.uploadFile(data.avatar);
     });
   };
 
@@ -49,6 +49,9 @@ class Update extends Component {
     })
       .then((res) => {
         const result = res.data;
+        this.setState({
+          avatar: result.data,
+        });
         console.log("image", result);
       })
       .catch((err) => {
@@ -144,6 +147,7 @@ class Update extends Component {
           <div className="form-group">
             <label>Avatar</label>
             <input type="file" name="avatar" onChange={this.onSelecFile} />
+            {/* {this.state.avatar? <p>{this.state.avatar}</p>:""} */}
           </div>
           <button type="submit" className="btn btn-primary">
             Submit
